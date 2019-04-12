@@ -47,7 +47,7 @@ public class sort {
     }
 
     /**
-     * 两路合并排序
+     * 两路合并排序递归算法（感受了一下js的写法，感觉java真让人头晕啊）
      */
     public static void merge(int a[],int low,int mid,int high){
         int[] temp = new int[high-low+1];
@@ -71,6 +71,7 @@ public class sort {
             temp[k++] = a[j++];
         }
 
+        //更新原数组
         for (int x = 0;x <temp.length;x++){
             a[x+low] = temp[x];
         }
@@ -84,20 +85,18 @@ public class sort {
             mergeSort(a,mid+1,high);
             //左右合并
             merge(a,low,mid,high);
-
         }
         return a;
     }
-
     /**
      * 堆排序
      */
 
     public static void main(String[] args){
-        int a[] = {4,6,3,2};
+        int a[] = {4,6,3,2,5,8};
         //quickSort(a,0,a.length-1);
         //bubble_sort(a);
-        //mergeSort(a,0,a.length-1);
+        mergeSort(a,0,a.length-1);
         for (int num:a) {
             System.out.print(num);
         }
