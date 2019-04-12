@@ -97,8 +97,7 @@ public class sort {
         int a[] = {4,6,3,2};
         //quickSort(a,0,a.length-1);
         //bubble_sort(a);
-        //sort1(a,0,a.length-1);
-        mergeSort(a,0,a.length-1);
+        //mergeSort(a,0,a.length-1);
         for (int num:a) {
             System.out.print(num);
         }
