@@ -211,6 +211,35 @@ public class tips {
 
            return list;
        }
+       /**在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，
+        * 重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+        * */
+       public static ListNode deleteDuplication(ListNode pHead)
+       {
+           //在头结点之前添加一个结点
+           ListNode beforeH = new ListNode(-1);
+           beforeH.next = pHead;
+           ListNode beforeP = beforeH;
+
+           ListNode p = pHead;
+
+           while(p != null && p.next != null){
+               if(p.next.val == p.val){
+                   int val = p.val;
+                   //找到一个相等的时候就继续再找
+                   while(p != null && val == p.val ){
+                       p = p.next;
+                   }
+                   //因为是有序的链表，所有重复的结点都是紧挨着的，一起找到之后，
+                   //把重复结点的前一个结点的next指向重复结点的后一个结点
+                   beforeP.next = p;
+               }else{
+                   beforeP = p;
+                   p = p.next;
+               }
+           }
+           return beforeH.next;
+       }
 
     public static void main(String[] args){
        // String str =  "1010000000011111111";
@@ -236,17 +265,17 @@ public class tips {
         }
         System.out.println("\n");*/
 
-       // ListNode l5 = new ListNode(15);
-       // ListNode l4 = new ListNode(14);
-        ListNode l3 = new ListNode(6);
+        ListNode l5 = new ListNode(15);
+        ListNode l4 = new ListNode(14);
+        ListNode l3 = new ListNode(4);
         ListNode l2 = new ListNode(4);
         ListNode l1 = new ListNode(2);
 
         l1.next = l2;
         l2.next = l3;
-        l3.next = null;
-        //l4.next = l5;
-        //l5.next = null;
+        l3.next = l4;
+        l4.next = l5;
+        l5.next = null;
 
         //ListNode ll5 = new ListNode(56);
         //ListNode ll4 = new ListNode(49);
@@ -260,12 +289,17 @@ public class tips {
        // ll4.next = ll5;
         //ll5.next = null;
 
-        ListNode result = Merge(ll1,l1);
+        /*ListNode result = Merge(ll1,l1);
         while (result != null){
             System.out.println(result.val);
             result = result.next;
-        }
+        }*/
 
+        ListNode repeatResult = deleteDuplication(l1);
+        while (repeatResult != null){
+            System.out.println(repeatResult.val);
+            repeatResult = repeatResult.next;
+        }
         /*int [][] a = {{1,2,3,4,5}};
         ArrayList<Integer> list = printMatrix(a);
         for (int n:list) {
