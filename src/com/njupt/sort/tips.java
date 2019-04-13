@@ -1,6 +1,7 @@
 package com.njupt.sort;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhangqiao on 2019/4/10.
@@ -73,13 +74,202 @@ public class tips {
 
         }
 
+       /**
+        * 链表反转
+        * */
+       //一个结点的数据结构
+       public static class ListNode {
+           int val;
+           ListNode next = null;
+
+           ListNode(int val) {
+               this.val = val;
+           }
+       }
+       public static ListNode ReverseList(ListNode head) {
+           if(head==null)
+               return null;
+           //head为当前节点，如果当前节点为空的话，那就什么也不做，直接返回null；
+           ListNode pre = null;
+           ListNode next = null;
+           //当前节点是head，pre为当前节点的前一节点，next为当前节点的下一节点
+           //需要pre和next的目的是让当前节点从pre->head->next1->next2变成pre<-head next1->next2
+           //即pre让节点可以反转所指方向，但反转之后如果不用next节点保存next1节点的话，此单链表就此断开了
+           //所以需要用到pre和next两个节点
+           //1->2->3->4->5
+           //1<-2<-3 4->5
+           while(head!=null){
+               //做循环，如果当前节点不为空的话，始终执行此循环，此循环的目的就是让当前节点从指向next到指向pre
+               //如此就可以做到反转链表的效果
+               //先用next保存head的下一个节点的信息，保证单链表不会因为失去head节点的原next节点而就此断裂
+               next = head.next;
+               //保存完next，就可以让head从指向next变成指向pre了，代码如下
+               head.next = pre;
+               //head指向pre后，就继续依次反转下一个节点
+               //让pre，head，next依次向后移动一个节点，继续下一次的指针反转
+               pre = head;
+               head = next;
+           }
+           //如果head为null的时候，pre就为最后一个节点了，但是链表已经反转完毕，pre就是反转后链表的第一个节点
+           //直接输出pre就是我们想要得到的反转后的链表
+           return pre;
+       }
+
+       public static ListNode reverse_test(ListNode head){
+           if(head == null){
+               return head;
+           }
+
+           ListNode pre = null;
+           ListNode next = null;
+           while (head != null){
+               next = head.next;
+               head.next = pre;
+               pre = head;
+               head = next;
+
+           }
+           return pre;
+
+       }
+
+       /**输入一个整数数组，实现一个函数来调整该数组中数字的顺序，
+        * 使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，
+        * 并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+        * */
+       public static void reOrderArray(int [] array) {
+           ArrayList<Integer> list_ji = new ArrayList<Integer>();
+           ArrayList<Integer> list_ou = new ArrayList<Integer>();
+           int len = array.length;
+           for(int i = 0;i < len;i++){
+               if(array[i]%2 != 0){
+                   list_ji.add(array[i]);
+               }else{
+                   list_ou.add(array[i]);
+               }
+           }
+           //把两个list合并
+           for(int i:list_ou){
+               list_ji.add(i);
+           }
+           //把list转为数组
+           int[] newArray = new int[len];
+           for(int i = 0;i<list_ji.size();i++){
+               newArray[i] = list_ji.get(i);
+           }
+           for(int i = 0;i < len;i++){
+               array[i] = newArray[i];
+           }
+       }
+
+       /**输入两个单调递增的链表，输出两个链表合成后的链表，
+        * 当然我们需要合成后的链表满足单调不减规则。
+        * */
+       /**
+        * 主要思想就是类似于两路合排序的merge函数，关键就是这里操作的数据结构是单链表
+        * 这里涉及了单链表的构造以及主函数里单链表的输出 不多赘述
+        * */
+       public static ListNode Merge(ListNode list1,ListNode list2) {
+           ListNode list = null;
+           ListNode p = null;
+           ListNode p1 = list1;
+           ListNode p2 = list2;
+           //让我想起了两路合并排序的Merge函数
+           while(p1 != null && p2 != null){
+               if(p1.val < p2.val){
+                   if(list == null){
+                       list = p1;
+                       p = list;
+                   }else{
+                       p.next = p1;
+                       p = p1;
+                   }
+                   p1 = p1.next;
+               }else{
+                   if(list == null){
+                       list = p2;
+                       p = list;
+                   }else{
+                       p.next = p2;
+                       p= p2;
+                   }
+                   p2 = p2.next;
+               }
+           }
+           //把第一个链表中剩余的加到新的链表中
+           while(p1 != null){
+               p.next = p1;
+               p = p1;
+               p1 = p1.next;
+           }
+           //把第二个链表中剩余的加到新的链表中
+           while(p2 != null){
+               p.next = p2;
+               p = p2;
+               p2 = p2.next;
+           }
+
+           return list;
+       }
+
     public static void main(String[] args){
        // String str =  "1010000000011111111";
        // zero_1Demo(str);
-        int [][] a = {{1,2,3,4,5}};
+
+       /* ListNode l5 = new ListNode(5);
+        ListNode l4 = new ListNode(4);
+        ListNode l3 = new ListNode(3);
+        ListNode l2 = new ListNode(2);
+        ListNode l1 = new ListNode(1);
+
+        l1.next = l2;
+        l2.next = l3;
+        l3.next = l4;
+        l4.next = l5;
+        l5.next = null;
+        System.out.println(reverse_test(l1).val);*/
+
+       /*int a[] = {1,8,7,4,66,5,11};
+       reOrderArray(a);
+        for (int n:a) {
+            System.out.print(n+" ");
+        }
+        System.out.println("\n");*/
+
+       // ListNode l5 = new ListNode(15);
+       // ListNode l4 = new ListNode(14);
+        ListNode l3 = new ListNode(6);
+        ListNode l2 = new ListNode(4);
+        ListNode l1 = new ListNode(2);
+
+        l1.next = l2;
+        l2.next = l3;
+        l3.next = null;
+        //l4.next = l5;
+        //l5.next = null;
+
+        //ListNode ll5 = new ListNode(56);
+        //ListNode ll4 = new ListNode(49);
+        ListNode ll3 = new ListNode(5);
+        ListNode ll2 = new ListNode(3);
+        ListNode ll1 = new ListNode(1);
+
+        ll1.next = ll2;
+        ll2.next = ll3;
+        ll3.next = null;
+       // ll4.next = ll5;
+        //ll5.next = null;
+
+        ListNode result = Merge(ll1,l1);
+        while (result != null){
+            System.out.println(result.val);
+            result = result.next;
+        }
+
+        /*int [][] a = {{1,2,3,4,5}};
         ArrayList<Integer> list = printMatrix(a);
         for (int n:list) {
             System.out.println(n);
-        }
+        }*/
     }
 }
