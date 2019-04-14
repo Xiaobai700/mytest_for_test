@@ -1,7 +1,11 @@
 package com.njupt.sort;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by zhangqiao on 2019/4/10.
@@ -241,7 +245,119 @@ public class tips {
            return beforeH.next;
        }
 
-    public static void main(String[] args){
+       /**
+        *有赞笔试题，键盘输入两个字符串，以；分隔，像这样："youzan;zanyou".
+        * 将第一个字符串分割成两部分，第一部分放在第二部分后面能否组成第二个字符串，
+        * 要是能返回true，否则返回false
+        * */
+       public static boolean youzan_test(String str1,String str2){
+           boolean result = false;
+           int len1 = str1.length();
+           int len2 = str2.length();
+
+           int i =0;
+           int j =0;
+           int index = 0;
+           if(len1 != len2){
+               return false;
+           }else{
+               while(i<len1 && j<len2){
+                   if(str1.charAt(i) == str2.charAt(j)){
+                       if(index == 0){
+                           index = j;//把分割处的下标记录下来
+                       }
+                       i++;
+                       j++;
+                   }else{
+                       j++;
+                   }
+               }
+               //判断前一部分是否一致
+               if(len2 - index != i){
+                   return false;
+               }else{
+                   int a = 0;
+                   while(i < len1 && a < index){
+                       if(str1.charAt(i) == str2.charAt(a)){
+                           i++;
+                           a++;
+                       }else{
+                           return false;
+                       }
+                   }
+               }
+               return true;
+           }
+       }
+
+       /**链接：https://www.nowcoder.com/questionTerminal/3f99492e23d9403d923e44bb1061cc86
+        来源：牛客网
+
+        给定一个非空的整数数组，从数组第一个元素(下标为0的元素)开始遍历进行移动，
+        下一次向后或向前移动 该元素的值 的位数（值为正数向后移动，值为负数向前移动，值为零不移动），
+        依次类推进行移动，若某次移动数组出现越界，则说明数组可以跳出，返回true；
+        不能跳出则返回false；（加分项：也可考虑不增加使用其他集合数组辅助完成算法）
+        例1：
+        输入数组a[5] = [1,2,3,2,5];从第一个元素开始a[0]=1,下次向后移动1位到第二个元素a[1]=2,
+        再次向后移动2位到第四个元素a[3],因为下次向后移动2位(a[3]=2)后,向后数组越界,即跳出数组,输出true;
+        例2：
+        输入数组a[2] = [1,-3];从第一个元素开始a[0]=1,下次移动1位到第二个元素a[1]=-3,
+        再次向前移动3位后,向前数组越界,即跳出数组,输出true;
+        * */
+       public static boolean move_array(){
+           boolean result = false;
+
+           Scanner sc = new Scanner(System.in);
+           String numstr = null;
+           while (numstr == null || numstr == ""){
+               System.out.println("请您输入数字以逗号分割！");
+               numstr = sc.nextLine();
+           }
+           //键盘输入构造数组
+           String[] nums = numstr.split(",");
+           while (nums.length == 0){
+               System.out.println("请您输入数字以逗号分割！");
+               numstr = sc.nextLine();
+               nums = numstr.split(",");
+           }
+           List<Integer> real_num = new ArrayList<Integer>();
+
+           for(int i = 0;i < nums.length;i++){
+               if(nums[i] != ""){
+                   real_num.add(Integer.parseInt(nums[i]));
+               }
+           }
+
+           int[] a = new int[real_num.size()];
+           for (int i = 0;i < real_num.size();i++) {
+               a[i] = real_num.get(i);
+           }
+
+           int move_index = 0;
+           for(int i = 0; i < a.length;i++){
+               int n = a[i];
+               move_index += n;
+           }
+
+           if(!(move_index >= 0 && move_index < a.length)){
+              result = true;
+           }
+           return result;
+
+       }
+    public static void main(String[] args) throws IOException {
+
+        /*BufferedReader buf = new BufferedReader (new InputStreamReader(System.in));
+        String str = buf.readLine();
+        buf.close();
+
+        String[] s = str.split(";");
+        String str1 = s[0];
+        String str2 = s[1];
+        System.out.print(youzan_test(str1,str2));*/
+
+
+
        // String str =  "1010000000011111111";
        // zero_1Demo(str);
 
@@ -265,7 +381,7 @@ public class tips {
         }
         System.out.println("\n");*/
 
-        ListNode l5 = new ListNode(15);
+        /*ListNode l5 = new ListNode(15);
         ListNode l4 = new ListNode(14);
         ListNode l3 = new ListNode(4);
         ListNode l2 = new ListNode(4);
@@ -287,7 +403,7 @@ public class tips {
         ll2.next = ll3;
         ll3.next = null;
        // ll4.next = ll5;
-        //ll5.next = null;
+        //ll5.next = null;*/
 
         /*ListNode result = Merge(ll1,l1);
         while (result != null){
@@ -295,11 +411,11 @@ public class tips {
             result = result.next;
         }*/
 
-        ListNode repeatResult = deleteDuplication(l1);
+        /*ListNode repeatResult = deleteDuplication(l1);
         while (repeatResult != null){
             System.out.println(repeatResult.val);
             repeatResult = repeatResult.next;
-        }
+        }*/
         /*int [][] a = {{1,2,3,4,5}};
         ArrayList<Integer> list = printMatrix(a);
         for (int n:list) {
