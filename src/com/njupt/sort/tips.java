@@ -345,7 +345,47 @@ public class tips {
            return result;
 
        }
+       /**
+        * 趋势的一道题：有一个递增序列，0 1 2 3 4 5.....隔一个删除一个元素、隔两个删除一个元素.....如果疏导最后一个再回到第一个
+        * 直到全部删除完  返回最后一个被删除的元素
+        * */
+       public static int return_last_deleted(int[] a){
+           int result = 0;
+           int len = a.length;
+           int count = 1;
+           int index = 0;
+           while (count <= len){
+               int real = 0;
+               while (index >= 0 && index <= len-1 && real < count) {
+                   if (a[index] != -1 && index != len-1) {
+                       index++;
+                       real++;
+                   }else if(a[index] == -1 && index != len-1) {
+                       index++;
+                   }
+                   if(index == len-1 && real < count ){
+                       if (a[index] != -1) {
+                           real++;
+                       }
+                       index = 0;
+                   }
+               }
+               while (a[index] == -1 && index <= len-1){
+                   if(index == len-1){
+                       index = 0;
+                   }else {
+                       index++;
+                   }
+               }
+               count++;
+               result = a[index];
+               a[index] = -1;
+           }
+           return result;
+       }
     public static void main(String[] args) throws IOException {
+           int a[] = {0,1,2,3,4,5,6};
+            System.out.println(return_last_deleted(a));
 
         /*BufferedReader buf = new BufferedReader (new InputStreamReader(System.in));
         String str = buf.readLine();
